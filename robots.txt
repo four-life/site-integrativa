@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://four-life.github.io/site-integrativa/sitemap.xml

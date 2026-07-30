@@ -9,6 +9,7 @@ Site estático (HTML + CSS, sem build) recriado a partir de
 .
 ├── index.html                  # página única (âncoras: #inicio #sobre #solucoes #contato)
 ├── 404.html                    # página de erro do GitHub Pages
+├── robots.txt / sitemap.xml    # indexação
 ├── .nojekyll                   # publica os arquivos sem processamento do Jekyll
 ├── .github/workflows/deploy.yml
 └── assets/
@@ -16,9 +17,11 @@ Site estático (HTML + CSS, sem build) recriado a partir de
     │   ├── style-integrativa-ajustado.css   # estilos do site
     │   └── plugins/                         # bootstrap + fontawesome (reset e ícones)
     ├── fonts/                  # webfonts do Font Awesome
-    ├── img/                    # logos e favicon
+    ├── img/                    # logos, favicon e og-image.jpg (card social 1200x630)
     └── js/main.js              # formulário de contato + menu ativo na rolagem
 ```
+
+Publicado em <https://four-life.github.io/site-integrativa/>.
 
 ## Rodar localmente
 
@@ -42,8 +45,11 @@ python3 -m http.server 8000
 
 ### Domínio próprio
 
-Crie um arquivo `CNAME` na raiz com o domínio (ex.: `integrativa.grupoerviegas.com.br`)
-e aponte o DNS para o GitHub Pages.
+1. Crie um arquivo `CNAME` na raiz com o domínio (ex.: `integrativa.grupoerviegas.com.br`).
+2. No DNS, aponte o subdomínio para `four-life.github.io` (registro `CNAME`).
+3. **Atualize as URLs absolutas**, que hoje apontam para o endereço do GitHub Pages:
+   `og:url`, `og:image` e `<link rel="canonical">` no `index.html`, mais o `<loc>`
+   do `sitemap.xml` e o `Sitemap:` do `robots.txt`.
 
 ## Formulário de contato
 

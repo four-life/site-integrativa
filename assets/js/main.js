@@ -43,24 +43,39 @@
     })
     .filter(Boolean);
 
-  if (secoes.length && "IntersectionObserver" in window) {
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          links.forEach(function (link) {
-            link.classList.toggle(
-              "is-active",
-              link.getAttribute("href") === "#" + entry.target.id
-            );
-          });
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" }
-    );
+  if (secoes.length) {
+    var agendado = false;
 
-    secoes.forEach(function (secao) {
-      observer.observe(secao);
-    });
+    var atualizar = function () {
+      agendado = false;
+
+      // Linha de referência a 35% da altura da janela: a última seção que já
+      // passou por ela é a seção corrente.
+      var linha = window.pageYOffset + window.innerHeight * 0.35;
+      var atual = secoes[0];
+
+      secoes.forEach(function (secao) {
+        if (secao.getBoundingClientRect().top + window.pageYOffset <= linha) {
+          atual = secao;
+        }
+      });
+
+      links.forEach(function (link) {
+        link.classList.toggle(
+          "is-active",
+          link.getAttribute("href") === "#" + atual.id
+        );
+      });
+    };
+
+    var agendar = function () {
+      if (agendado) return;
+      agendado = true;
+      window.requestAnimationFrame(atualizar);
+    };
+
+    window.addEventListener("scroll", agendar, { passive: true });
+    window.addEventListener("resize", agendar);
+    atualizar();
   }
 })();
